@@ -3,6 +3,8 @@ package fr.leomelki.loupgarou.roles;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import fr.leomelki.loupgarou.classes.LGGame;
@@ -13,6 +15,8 @@ import fr.leomelki.loupgarou.events.LGGameEndEvent;
 import fr.leomelki.loupgarou.events.LGNightStart;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class RChasseur extends Role{
 	public RChasseur(LGGame game) {
@@ -95,6 +99,23 @@ public class RChasseur extends Role{
 		if(e.getKilled().getRole() == this && e.getReason() != Reason.DISCONNECTED && e.getKilled().isRoleActive())
 			needToPlay.add(e.getKilled());
 	}
+
+    @EventHandler
+    public void onPlayerKillGiveBeforeDeath(LGPlayerKilledEvent e) {
+        // si on veut cibler le joueur mort
+        LGPlayer lg = e.getKilled();
+        Player p = lg.getPlayer();
+        if (p == null) return;
+
+        ItemStack lastBullet = new ItemStack(Material.FIREWORK_ROCKET); // changer Material
+        ItemMeta meta = lastBullet.getItemMeta();
+        meta.setDisplayName("§6Dernière balle");
+        lastBullet.setItemMeta(meta);
+
+        // met dans la main principale juste avant la mort
+        p.getInventory().setItemInMainHand(lastBullet);
+    }
+
 	@EventHandler
 	public void onDayStart(LGDayStartEvent e) {
 		if(e.getGame() != getGame())return;
