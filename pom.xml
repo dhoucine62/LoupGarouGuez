@@ -76,11 +76,13 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.4.0</version>
-          </dependency>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dep/ProtocolLib.jar</systemPath>
+        </dependency>
           <dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
